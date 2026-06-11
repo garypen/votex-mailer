@@ -1,0 +1,7 @@
+/target
+
+# Never ever check in .env
+.env
+
+# Ignore input files
+/input
