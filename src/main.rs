@@ -13,8 +13,8 @@ use std::path::{Path, PathBuf};
 
 /// votex-mailer — send unique poll links to a list of recipients.
 ///
-/// Reads email addresses from EMAILS_FILE (one per line) and poll links from
-/// LINKS_FILE (JSON).  Each recipient is assigned exactly one randomly chosen
+/// Reads email addresses from EMAILS (one per line) and poll links from
+/// LINKS (JSON).  Each recipient is assigned exactly one randomly chosen
 /// link.  The number of email addresses must match the number of links.
 ///
 /// Required environment variables:
@@ -24,11 +24,11 @@ use std::path::{Path, PathBuf};
 #[command(author, version, about, long_about = None)]
 struct Cli {
     /// Path to a plain-text file containing one email address per line
-    #[arg(short, long, value_name = "FILE")]
+    #[arg(value_name = "EMAILS")]
     emails: PathBuf,
 
     /// Path to the JSON file containing the poll subject and links array
-    #[arg(short, long, value_name = "FILE")]
+    #[arg(value_name = "LINKS")]
     links: PathBuf,
 }
 
@@ -197,7 +197,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         return Err(format!(
             "Emails file not found: '{}'\n  \
              Hint: supply a plain-text file with one email address per line \
-             using the --emails flag.",
+             as the first argument.",
             cli.emails.display()
         )
         .into());
@@ -206,7 +206,7 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         return Err(format!(
             "Links JSON file not found: '{}'\n  \
              Hint: supply a JSON file containing a 'subject' string and a \
-             'links' array using the --links flag.",
+             'links' array as the second argument.",
             cli.links.display()
         )
         .into());
